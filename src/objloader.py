@@ -18,9 +18,7 @@ def MTL(filename):
             mtl[values[0]] = values[1]
             mtl['texture_Kd'] = carrega_textura(mtl['map_Kd'])
         else:
-            v = values[1:]
-            for i in range(0, len(v)): v[i] = float(v[i])
-            mtl[values[0]] = v
+            mtl[values[0]] = list(map(float, values[1:]))
     return contents
 
 
@@ -56,24 +54,23 @@ class OBJ:
             values = line.split()
             if not values: continue
             if values[0] == 'v':
-                v = values[1:4]
-                for i in range(0, len(v)): v[i] = float(v[i])
+                v = list(map(float, values[1:4]))
                 if swapyz:
                     v = v[0], v[2], v[1]
                 self.vertices.append(v)
             elif values[0] == 'vn':
-                v = values[1:4]
-                for i in range(0, len(v)): v[i] = float(v[i])
+                v = list(map(float, values[1:4]))
                 if swapyz:
                     v = v[0], v[2], v[1]
                 self.normals.append(v)
             elif values[0] == 'vt':
-                self.texcoords.append(map(float, values[1:3]))
+                self.texcoords.append(list(map(float, values[1:3])))
             elif values[0] in ('usemtl', 'usemat'):
                 material = values[1]
             elif values[0] == 'mtllib':
                 dir = filename.split('/')
-                dir = "/".join(dir[:len(dir) - 1]) + "/"
+                dir = "/".join(dir[:len(dir) - 1])
+                if dir != "": dir += "/"
                 self.mtl = MTL(dir + values[1])
             elif values[0] == 'f':
                 face = []
@@ -109,7 +106,7 @@ class OBJ:
                 glBindTexture(GL_TEXTURE_2D, mtl['texture_Kd'])
             else:
                 # just use diffuse colour
-                glColor3f(mtl['Kd'][0], mtl['Kd'][1], mtl['Kd'][2])
+                glColor3fv(mtl['Kd'])
 
             glBegin(GL_POLYGON)
             for i in range(len(vertices)):

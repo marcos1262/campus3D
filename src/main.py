@@ -34,7 +34,7 @@ class Campus3D(QOpenGLWidget):
         self.cena = []
 
         self.audio = Audio(app, self)
-        self.audio.toca_musica_fundo()
+        # self.audio.toca_musica_fundo()
 
         self.startTimer(30)
 
@@ -76,7 +76,7 @@ class Campus3D(QOpenGLWidget):
 
         # self.carrega_textura("../images/Spacecrafts/tie-figher.png", self.texturaJogador)
 
-        self.objSegway = OBJ("../objs/tinker.obj", swapyz=True)
+        self.objSegway = OBJ("../objs/campus3d.obj", swapyz=True)
 
     def paintGL(self):
         """
@@ -105,11 +105,12 @@ class Campus3D(QOpenGLWidget):
 
         self.mostra_status()
 
-        # glPushMatrix()
-        # glScalef(5, 5, 5)
-        # glRotate(90, 1, 0, 0)
+        glPushMatrix()
+        # glScalef(0.0005, 0.0005, 0.0005)
+        # glTranslate(0, 100, 0)
+        glRotate(180, 0, 1, 0)
         glCallList(self.objSegway.gl_list)
-        # glPopMatrix()
+        glPopMatrix()
 
         glFlush()
 
