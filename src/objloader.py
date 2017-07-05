@@ -1,5 +1,5 @@
 from OpenGL.GL import *
-from PIL.Image import Image
+from PIL import Image
 
 
 def MTL(filename):
@@ -16,7 +16,10 @@ def MTL(filename):
         elif values[0] == 'map_Kd':
             # load the texture referred to by this declaration
             mtl[values[0]] = values[1]
-            mtl['texture_Kd'] = carrega_textura(mtl['map_Kd'])
+            dir = filename.split('/')
+            dir = "/".join(dir[:len(dir) - 1])
+            if dir != "": dir += "/"
+            mtl['texture_Kd'] = carrega_textura(dir+mtl['map_Kd'])
         else:
             mtl[values[0]] = list(map(float, values[1:]))
     return contents

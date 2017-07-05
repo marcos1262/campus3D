@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, mainWindow, glWindow):
         mainWindow.setObjectName("MainWindow")
-        mainWindow.resize(700, 700)
+        mainWindow.resize(1300, 700)
         self.centralWidget = QtWidgets.QWidget(mainWindow)
         self.centralWidget.setObjectName("centralWidget")
         # self.centralWidget.resizeEvent = (self.resizeEvent)
@@ -24,11 +24,11 @@ class Ui_MainWindow(object):
         self.centralWidget.setPalette(palette)
 
         self.painel_jogo = QtWidgets.QWidget(self.centralWidget)
-        self.painel_jogo.setGeometry(QtCore.QRect(0, 0, 700, 700))
+        self.painel_jogo.setGeometry(QtCore.QRect(0, 0, 1300, 700))
         self.painel_jogo.setObjectName("painel_jogo")
 
         self.jogo = glWindow(self.painel_jogo)
-        self.jogo.setGeometry(QtCore.QRect(0, 0, 700, 700))
+        self.jogo.setGeometry(QtCore.QRect(0, 0, 1300, 700))
         self.jogo.setObjectName("jogo")
 
         # self.labelTickets = QtWidgets.QLabel(self.painel_jogo)
@@ -41,29 +41,28 @@ class Ui_MainWindow(object):
         # self.labelTempo.setGeometry(QtCore.QRect(10, 30, 154, 17))
         # self.labelTempo.setObjectName("labelNivel")
 
+        self.labelLoading = QtWidgets.QLabel(self.painel_jogo)
+        self.labelLoading.setEnabled(True)
+        self.labelLoading.setGeometry(QtCore.QRect(600, 340, 100, 20))
+        self.labelLoading.setObjectName("labelLoading")
+
         self.jogo.raise_()
         # self.labelTickets.raise_()
         # self.labelTempo.raise_()
+        self.labelLoading.raise_()
         self.painel_jogo.raise_()
         mainWindow.setCentralWidget(self.centralWidget)
         self.retranslateUi(mainWindow)
         QtCore.QMetaObject.connectSlotsByName(mainWindow)
 
-        self.iniciaJogo()
+        self.jogo.setFocus()
 
     def retranslateUi(self, mainWindow):
         _translate = QtCore.QCoreApplication.translate
         mainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         # self.labelTickets.setText(_translate("MainWindow", ""))
         # self.labelTempo.setText(_translate("MainWindow", ""))
-
-    def iniciaJogo(self):
-        self.jogo.setFocus()
-        self.jogo.iniciaJogo = True
-        # QtCore.QCoreApplication.sendEvent(
-        #     self.jogo.audio.timerMusicaFundo,
-        #     QtCore.QTimerEvent(self.jogo.audio.timerMusicaFundo.timerId())
-        # )
+        self.labelLoading.setText(_translate("MainWindow", ""))
 
 
 if __name__ == "__main__":
