@@ -33,6 +33,8 @@ class Campus3D(QOpenGLWidget):
         # self.jogador = Bob(0, 0)
         self.cena = []
 
+        self.navMesh = [[]]
+
         self.audio = Audio(app, self)
         # self.audio.toca_musica_fundo()
 
@@ -55,14 +57,16 @@ class Campus3D(QOpenGLWidget):
         glEnable(GL_DEPTH_TEST)
 
         # light_position = [0, 0, 0, 1]
-        light_position = [-40, 200, 100, 0.0]
-        light_ambient_color = [0.2, 0.2, 0.2, 1.0]
+        self.light_position = [0, -20, 0, 0.0]
+        self.light_ambient_color = [0.2, 0.2, 0.2, 1.0]
         # light_diffuse_color = [.8, 1, .8, 1]
-        light_diffuse_color = [0.5, 0.5, 0.5, 1.0]
+        self.light_diffuse_color = [0.8, 1, 0.8, 1.0]
+        self.light_specular_color = [0.2, 0.2, 0.2, 1.0]
 
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position)
-        glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient_color)
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse_color)
+        glLightfv(GL_LIGHT0, GL_POSITION, self.light_position)
+        glLightfv(GL_LIGHT0, GL_AMBIENT, self.light_ambient_color)
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, self.light_diffuse_color)
+        glLightfv(GL_LIGHT0, GL_SPECULAR, self.light_specular_color)
         # glLightfv(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.4)
         glEnable(GL_LIGHT0)
         glEnable(GL_LIGHTING)
@@ -76,7 +80,7 @@ class Campus3D(QOpenGLWidget):
 
         # CarregaModelos(self, ui).start()
         self.objSegway = OBJ("../objs/segway.obj", swapyz=False)
-        self.objCampus = OBJ("../objs/campus3dv3.obj", swapyz=False)
+        self.objCampus = [OBJ("../objs/campus3dv3.obj", swapyz=False)]
         self.iniciaJogo = True
 
     def timerEvent(self, QTimerEvent):
@@ -123,16 +127,26 @@ class Campus3D(QOpenGLWidget):
         self.mostra_status()
 
         glPushMatrix()
+        glRotate(-90, 0, 0, 1)
+        glScale(10, 10, 10)
+        glCallList(self.objCampus[0].gl_list)
+        glPopMatrix()
 
         glPushMatrix()
-        glRotate(-90, 0, 0, 1)
-        glCallList(self.objCampus.gl_list)
-        glPopMatrix()
-
-        glTranslate(2, 5, 0)
+        glTranslate(40, 50, 35)
+        glRotate(90, 0, 0, 1)
+        glScale(10, 10, 10)
         glCallList(self.objSegway.gl_list)
-
         glPopMatrix()
+
+        # glDisable(GL_TEXTURE_2D)
+        # glBegin(GL_QUADS)
+        # glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [1, 0, 0])
+        # glVertex([30, 60, 1])
+        # glVertex([-30, 60, 1])
+        # glVertex([-30, 30, 1])
+        # glVertex([30, 30, 1])
+        # glEnd()
 
         glFlush()
 

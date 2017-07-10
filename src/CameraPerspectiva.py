@@ -17,8 +17,8 @@ class CameraPerspectiva:
 
         gluPerspective(self.fov, self.ar, self.near, self.far)
 
-        gluLookAt(0, -1, 2,
-                  0, 0, 2,
+        gluLookAt(0, -1, 20,
+                  0, 0, 20,
                   0, 0, 1)
 
         glMatrixMode(GL_MODELVIEW)
