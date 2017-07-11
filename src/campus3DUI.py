@@ -41,15 +41,15 @@ class Ui_MainWindow(object):
         # self.labelTempo.setGeometry(QtCore.QRect(10, 30, 154, 17))
         # self.labelTempo.setObjectName("labelNivel")
 
-        self.labelLoading = QtWidgets.QLabel(self.painel_jogo)
-        self.labelLoading.setEnabled(True)
-        self.labelLoading.setGeometry(QtCore.QRect(600, 340, 100, 20))
-        self.labelLoading.setObjectName("labelLoading")
+        self.labelCenter = QtWidgets.QLabel(self.painel_jogo)
+        self.labelCenter.setEnabled(True)
+        self.labelCenter.setGeometry(QtCore.QRect(550, 340, 200, 20))
+        self.labelCenter.setObjectName("labelCenter")
 
         self.jogo.raise_()
         # self.labelTickets.raise_()
         # self.labelTempo.raise_()
-        self.labelLoading.raise_()
+        self.labelCenter.raise_()
         self.painel_jogo.raise_()
         mainWindow.setCentralWidget(self.centralWidget)
         self.retranslateUi(mainWindow)
@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         mainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         # self.labelTickets.setText(_translate("MainWindow", ""))
         # self.labelTempo.setText(_translate("MainWindow", ""))
-        self.labelLoading.setText(_translate("MainWindow", ""))
+        self.labelCenter.setText(_translate("MainWindow", ""))
 
 
 if __name__ == "__main__":

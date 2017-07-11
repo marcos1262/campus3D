@@ -19,7 +19,7 @@ def MTL(filename):
             dir = filename.split('/')
             dir = "/".join(dir[:len(dir) - 1])
             if dir != "": dir += "/"
-            mtl['texture_Kd'] = carrega_textura(dir+mtl['map_Kd'])
+            mtl['texture_Kd'] = carrega_textura(dir + mtl['map_Kd'])
         else:
             mtl[values[0]] = list(map(float, values[1:]))
     return contents
@@ -38,7 +38,8 @@ def carrega_textura(arquivo):
 
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.size[0], img.size[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, img_data)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.size[0], img.size[1], 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                 img_data)
     # glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
     return id
 
@@ -98,7 +99,6 @@ class OBJ:
         glEndList()
 
     def draw(self):
-        glEnable(GL_TEXTURE_2D)
         glFrontFace(GL_CCW)
         for face in self.faces:
             vertices, normals, texture_coords, material = face
@@ -106,17 +106,26 @@ class OBJ:
             mtl = self.mtl[material]
             if 'texture_Kd' in mtl:
                 # use diffuse texmap
+                glEnable(GL_TEXTURE_2D)
                 glBindTexture(GL_TEXTURE_2D, mtl['texture_Kd'])
+
+                glBegin(GL_POLYGON)
+                for i in range(len(vertices)):
+                    if normals[i] > 0:
+                        glNormal3fv(self.normals[normals[i] - 1])
+                    glTexCoord2fv(self.texcoords[texture_coords[i] - 1])
+                    glVertex3fv(self.vertices[vertices[i] - 1])
+                glEnd()
+
+                glDisable(GL_TEXTURE_2D)
             else:
                 # just use diffuse colour
                 glColor3fv(mtl['Kd'])
 
-            glBegin(GL_POLYGON)
-            for i in range(len(vertices)):
-                if normals[i] > 0:
-                    glNormal3fv(self.normals[normals[i] - 1])
-                if texture_coords[i] > 0:
-                    glTexCoord2fv(self.texcoords[texture_coords[i] - 1])
-                glVertex3fv(self.vertices[vertices[i] - 1])
-            glEnd()
-        glDisable(GL_TEXTURE_2D)
+                glBegin(GL_POLYGON)
+                for i in range(len(vertices)):
+                    if normals[i] > 0:
+                        glNormal3fv(self.normals[normals[i] - 1])
+                    glVertex3fv(self.vertices[vertices[i] - 1])
+                glEnd()
+
