@@ -36,8 +36,8 @@ class Campus3D(QOpenGLWidget):
 
         self.navMesh = NavMesh()
 
-        # self.audio = Audio(app, self)
-        # self.audio.toca_musica_fundo()
+        self.audio = Audio(app, self)
+        self.audio.toca_musica_fundo()
 
         self.startTimer(20)
 
